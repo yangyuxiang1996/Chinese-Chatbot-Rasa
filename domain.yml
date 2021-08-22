@@ -1,0 +1,98 @@
+# 域定义了助手在其中运行的 Universe。它指定了你的机器人应该知道的意图、实体、槽、响应、表单和操作。它还定义了对话会话的配置。
+version: "2.0"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - mood_great
+  - mood_unhappy
+  - faq
+  - bot_challenge
+  - internal_medicine
+  - obstetrics_gynecology
+  - pediatric
+  - oncology
+  - andriatria
+  - surgical
+  - medicines
+
+entities:
+  - medicine
+  - ask_about
+
+forms:
+  medicines_form:
+    required_slots:
+      medicine:
+        - type: from_entity
+          entity: medicine
+      ask_about:
+        - type: from_entity
+          entity: ask_about
+
+slots:
+
+responses:
+  utter_greet:
+    - text: "Hey! How are you?"
+
+  utter_cheer_up:
+    - text: "如果你不开心，可以和我聊聊天啦"
+
+  utter_did_that_help:
+    - text: "这对你有帮助吗？"
+
+  utter_happy:
+    - text: "太棒了！"
+
+  utter_goodbye:
+    - text: "Bye"
+
+  utter_welcome:
+    - text: "不用谢，这是我应该做的，能帮到你我很开心！"
+
+  utter_iamabot:
+    - text: "I am a bot, powered by Rasa."
+
+  utter_faq/ask_name:
+    - text: "我是你的医疗AI小助手，你可以叫我小医哦！"
+
+  utter_faq/ask_help:
+    - text: "快来问我医疗相关的问题吧！"
+
+  utter_faq/ask_gender:
+    - text: "性别什么的，不重要！"
+
+  utter_faq/ask_habby:
+    - text: "我喜欢写代码！"
+
+  utter_faq/ask_love:
+    - text: "讨厌啦！干嘛问我这么隐秘的问题！"
+  
+  utter_ask_continue:
+    - text: "您是否要继续询问{medicine}的信息？"
+
+  utter_ask_about:
+    - text: "请问您需要询问{medicine}的什么信息？暂时仅支持查询产地、疗效和成分信息哦！正在努力开发中！"
+
+  utter_ask_medicine:
+    - text: "请问您需要询问什么药品信息？"
+
+actions:
+  - action_internal_medicine
+  - action_obstetrics_gynecology
+  - action_pediatric
+  - action_oncology
+  - action_andriatria
+  - action_surgical
+  - action_medicines
+  - validate_medicine_form
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+configs:
+  store_entities_as_slots: false

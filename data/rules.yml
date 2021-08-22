@@ -1,0 +1,9 @@
+# 回答比较简单，答案可以直接从某些地方直接回答，类似于单轮对话
+version: "2.0"
+
+rules:
+
+- rule: faq
+  steps:
+    - intent: faq
+    - action: utter_faq
