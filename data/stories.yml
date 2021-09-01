@@ -1,63 +1,89 @@
-# 回答比较复杂，涉及到多轮，填槽等；与action有关
-# Stories are a type of training data used to train your assistant's dialogue management model.
-# Stories can be used to train models that are able to generalize to unseen conversation paths.
 version: "2.0"
 
 stories:
-  - story: thanks
-    steps:
-      - intent: thanks
-      - action: utter_welcome
 
-  - story: happy path
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_great
-      - action: utter_happy
+- story: happy path
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_great
+  - action: utter_happy
 
-  - story: sad path 1
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: affirm
-      - action: utter_happy
+- story: sad path 1
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: affirm
+  - action: utter_happy
 
-  - story: sad path 2
-    steps:
-      - intent: greet
-      - action: utter_greet
-      - intent: mood_unhappy
-      - action: utter_cheer_up
-      - action: utter_did_that_help
-      - intent: deny
-      - action: utter_goodbye
+- story: sad path 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: mood_unhappy
+  - action: utter_cheer_up
+  - action: utter_did_that_help
+  - intent: deny
+  - action: utter_goodbye
 
-  - story: ask about internal_medicine
-    steps:
-      - intent: internal_medicine
-      - action: action_internal_medicine
+- story: thanks
+  steps:
+  - intent: thanks
+  - action: utter_welcome
 
-  - story: ask about the medicines
-    steps:
-      - intent: medicines
-      - action: medicines_form
-      - active_loop: medicines_form
-      - active_loop: null
-      - action: action_medicines
+- story: goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
 
-  - story: stop ask about the medicines
-    steps: 
-    - intent: medicines
-    - action: medicines_form
-    - active_loop: medicines_form
-    - intent: stop
-    - action: utter_ask_continue
-    - intent: stop
-    - action: action_deactivate_loop
-    - active_loop: null 
+- story: ask about internal_medicine
+  steps:
+  - intent: internal_medicine
+  - action: action_internal_medicine
 
+- story: ask about obstetrics_gynecology
+  steps:
+  - intent: obstetrics_gynecology
+  - action: action_obstetrics_gynecology
 
+- story: ask about pediatric
+  steps:
+  - intent: pediatric
+  - action: action_pediatric
+
+- story: ask about oncology
+  steps:
+  - intent: oncology
+  - action: action_oncology
+
+- story: ask about andriatria
+  steps:
+  - intent: andriatria
+  - action: action_andriatria
+
+- story: ask about surgical
+  steps:
+  - intent: surgical
+  - action: action_surgical
+
+- story: ask about the medicines
+  steps:
+  - intent: medicines
+  - action: medicines_form
+  - active_loop: medicines_form
+  - active_loop: null
+  - action: action_medicines
+
+- story: stop ask about the medicines
+  steps:
+  - intent: medicines
+  - action: medicines_form
+  - active_loop: medicines_form
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null

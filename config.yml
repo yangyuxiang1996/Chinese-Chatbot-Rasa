@@ -8,22 +8,24 @@ pipeline:
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: SpacyNLP
-    model: "zh_core_web_md"
-    case_sensitive: False
-  - name: SpacyTokenizer
-  - name: SpacyFeaturizer
-  - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    # Analyzer to use, either 'word', 'char', or 'char_wb'
-    analyzer: char_wb
-    # Set the lower and upper boundaries for the n-grams
-    min_ngram: 1
-    max_ngram: 4
-  - name: DIETClassifier  # 意图识别分类器
+  - name: JiebaTokenizer
+    dictionary_path: "data/dict.txt"
+  - name: LanguageModelFeaturizer
+    model_name: bert
+    model_weights: pretrained_model/bert-base-chinese
+  - name: "DIETClassifier"
+    epochs: 100
+  # - name: LexicalSyntacticFeaturizer  # 为用户消息创建词汇和句法特征以支持实体提取。sparse_features
+  # - name: CountVectorsFeaturizer  # 创建用户消息、意图和响应的词袋表示。sparse_features
+  # - name: CountVectorsFeaturizer
+  #   # Analyzer to use, either 'word', 'char', or 'char_wb'
+  #   analyzer: char_wb
+  #   # Set the lower and upper boundaries for the n-grams
+  #   min_ngram: 1
+  #   max_ngram: 4
+  - name: DIETClassifier  # Dual Intent Entity Transformer (DIET) 用于意图分类和实体提取
     epochs: 5
-  - name: EntitySynonymMapper  # 实体识别Mapper
+  - name: EntitySynonymMapper  # 将同义实体值映射到相同的值。
   - name: ResponseSelector
     epochs: 100
 
@@ -40,8 +42,4 @@ policies:
     epochs: 100
     constrain_similarities: true
     model_confidence: cosine
-  - name: FallbackPolicy
-    nlu_threshold: 0.7
-    core_threshold: 0.7
-    fallback_action_name: "utter_default"
-  - name: MappingPolicy
+  - name: RulePolicy

@@ -3,13 +3,14 @@ version: "2.0"
 
 intents:
   - greet
-  - goodbye
   - affirm
   - deny
   - mood_great
+  - thanks
   - mood_unhappy
+  - stop
+  - goodbye
   - faq
-  - bot_challenge
   - internal_medicine
   - obstetrics_gynecology
   - pediatric
@@ -22,6 +23,13 @@ entities:
   - medicine
   - ask_about
 
+slots:
+  medicine:
+    type: text
+  ask_about:
+    type: text
+
+
 forms:
   medicines_form:
     required_slots:
@@ -32,55 +40,61 @@ forms:
         - type: from_entity
           entity: ask_about
 
-slots:
 
 responses:
   utter_greet:
-    - text: "Hey! How are you?"
+    - text: "Hey! 你好呀！"
 
   utter_cheer_up:
-    - text: "如果你不开心，可以和我聊聊天啦"
+    - text: "如果你不开心的话，那我给你讲一个笑话好了，~~~~~~"
 
   utter_did_that_help:
-    - text: "这对你有帮助吗？"
+    - text: "这是否对你有帮助呢"
 
   utter_happy:
-    - text: "太棒了！"
+    - text: "太好了，继续加油哦！"
 
-  utter_goodbye:
-    - text: "Bye"
+  utter_happy 2:
+    - text: "能帮助到你我也很开心。"
 
   utter_welcome:
-    - text: "不用谢，这是我应该做的，能帮到你我很开心！"
+    - text: "不用谢哦，这是我应该做的呢，能帮助到你我也很开心。"
 
-  utter_iamabot:
-    - text: "I am a bot, powered by Rasa."
-
-  utter_faq/ask_name:
-    - text: "我是你的医疗AI小助手，你可以叫我小医哦！"
+  utter_goodbye:
+    - text: "再见咯"
 
   utter_faq/ask_help:
-    - text: "快来问我医疗相关的问题吧！"
+    - text: "你可以问我医疗及药品相关问题哦，赶快来试试吧。"
+
+  utter_faq/ask_name:
+    - text: "我的名字叫小医，我是AI智能客服小助手哦。"
 
   utter_faq/ask_gender:
-    - text: "性别什么的，不重要！"
+    - text: "严格来说其实我并没有性别哦，不过我觉得自己更像是一个乖乖女。"
 
   utter_faq/ask_habby:
-    - text: "我喜欢写代码！"
+    - text: "我有好多爱好呢，我也喜欢打游戏哦，遇到不懂的问题尽管问我吧。"
 
   utter_faq/ask_love:
-    - text: "讨厌啦！干嘛问我这么隐秘的问题！"
-  
-  utter_ask_continue:
-    - text: "您是否要继续询问{medicine}的信息？"
-
-  utter_ask_about:
-    - text: "请问您需要询问{medicine}的什么信息？暂时仅支持查询产地、疗效和成分信息哦！正在努力开发中！"
+    - text: "讨厌啦！干嘛问人家这么私密的问题，不过我可以告诉你我现在还是单身哦，嘿嘿。"
 
   utter_ask_medicine:
-    - text: "请问您需要询问什么药品信息？"
+    - text: "请问您需要询问什么药品的信息？"
+
+  utter_ask_ask_about:
+    - text: "请问您需要询问{medicine}的什么信息？目前可以查询的有疗效、产地和组成信息。"
+
+  utter_ask_continue:
+    - text: "请问是否继续询问{medicine}的信息？如果不需要请输入停止。"
+
+  utter_none:
+    - text: "抱歉，未找到与您问题匹配的答案，你可以换个方式问我哦"
+
+  utter_default:
+    - text: "抱歉，我可能没有听懂你的意思，你可以换个方式问我哦"
 
 actions:
+  - utter_faq
   - action_internal_medicine
   - action_obstetrics_gynecology
   - action_pediatric
@@ -88,11 +102,8 @@ actions:
   - action_andriatria
   - action_surgical
   - action_medicines
-  - validate_medicine_form
+  - validate_medicines_form
 
 session_config:
   session_expiration_time: 60
   carry_over_slots_to_new_session: true
-
-configs:
-  store_entities_as_slots: false
