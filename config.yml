@@ -8,13 +8,25 @@ pipeline:
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: JiebaTokenizer
-    dictionary_path: "data/dict.txt"
-  - name: LanguageModelFeaturizer
+  # - name: JiebaTokenizer
+  #   dictionary_path: "data/dict.txt"
+  # - name: LanguageModelFeaturizer
+  #   model_name: bert
+  #   model_weights: pretrained_model/bert-base-chinese
+  # - name: "DIETClassifier"
+  #   epochs: 100
+  - name: HFTransformersNLP
     model_name: bert
     model_weights: pretrained_model/bert-base-chinese
-  - name: "DIETClassifier"
-    epochs: 100
+    cache_dir: null
+  - name: rasa_chinese.nlu.tokenizers.lm_tokenizer.LanguageModelTokenizer
+    tokenizer_url: 'http://127.0.0.1:8000/'
+  - name: LanguageModelFeaturizer
+  - name: SklearnIntentClassifier
+  - name: CRFEntityExtractor
+  - name: EntitySynonymMapper
+  - name: ResponseSelector
+    epochs: 50
   # - name: LexicalSyntacticFeaturizer  # 为用户消息创建词汇和句法特征以支持实体提取。sparse_features
   # - name: CountVectorsFeaturizer  # 创建用户消息、意图和响应的词袋表示。sparse_features
   # - name: CountVectorsFeaturizer
@@ -23,11 +35,11 @@ pipeline:
   #   # Set the lower and upper boundaries for the n-grams
   #   min_ngram: 1
   #   max_ngram: 4
-  - name: DIETClassifier  # Dual Intent Entity Transformer (DIET) 用于意图分类和实体提取
-    epochs: 5
-  - name: EntitySynonymMapper  # 将同义实体值映射到相同的值。
-  - name: ResponseSelector
-    epochs: 100
+  # - name: DIETClassifier  # Dual Intent Entity Transformer (DIET) 用于意图分类和实体提取
+  #   epochs: 5
+  # - name: EntitySynonymMapper  # 将同义实体值映射到相同的值。
+  # - name: ResponseSelector
+  #   epochs: 100
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
