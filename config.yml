@@ -3,18 +3,21 @@
 language: zh
 
 pipeline:
-  - name: SpacyNLP
-    model: "zh_core_web_md"
-  - name: SpacyTokenizer
-  - name: SpacyFeaturizer
-  - name: RegexFeaturizer
+  - name: HFTransformersNLP
+    model_name: bert
+    model_weights: pretrained_model/bert-base-chinese
+    cache_dir: null
+  - name: rasa_chinese.nlu.tokenizers.lm_tokenizer.LanguageModelTokenizer
+    tokenizer_url: 'http://127.0.0.1:8000/'
+  - name: LanguageModelFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer
   - name: CountVectorsFeaturizer
     analyzer: "char_wb"
     min_ngram: 1
     max_ngram: 4
-  - name: DIETClassifier
+  - name: SklearnIntentClassifier
+  - name: CRFEntityExtractor
     epochs: 5
   - name: EntitySynonymMapper
   - name: ResponseSelector

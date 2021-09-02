@@ -5,8 +5,8 @@ language: zh
 pipeline:
   - name: SpacyNLP
     model: "zh_core_web_md"
-  - name: JiebaTokenizer
-    dictionary_path: "data/dict.txt"
+  - name: SpacyTokenizer
+  - name: SpacyFeaturizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
   - name: CountVectorsFeaturizer

@@ -8,15 +8,15 @@ pipeline:
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  # - name: HFTransformersNLP
-  #   model_name: bert
-  #   model_weights: pretrained_model/bert-base-chinese
-  #   cache_dir: null
-  # - name: rasa_chinese.nlu.tokenizers.lm_tokenizer.LanguageModelTokenizer
-  #   tokenizer_url: 'http://127.0.0.1:8000/'
-  # - name: LanguageModelFeaturizer
-  # - name: SklearnIntentClassifier
-  # - name: CRFEntityExtractor
+  - name: HFTransformersNLP
+    model_name: bert
+    model_weights: pretrained_model/bert-base-chinese
+    cache_dir: null
+  - name: rasa_chinese.nlu.tokenizers.lm_tokenizer.LanguageModelTokenizer
+    tokenizer_url: 'http://127.0.0.1:8000/'
+  - name: LanguageModelFeaturizer
+  - name: SklearnIntentClassifier
+  - name: CRFEntityExtractor
 
   - name: JiebaTokenizer
   - name: LanguageModelFeaturizer
