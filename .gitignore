@@ -4,3 +4,4 @@ QA*/
 rasa_for_student
 .DS_Store
 pretrained_model/
+cached/

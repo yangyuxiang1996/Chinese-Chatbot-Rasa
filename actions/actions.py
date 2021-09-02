@@ -4,62 +4,42 @@
 # See this guide on how to implement these action:
 # https://rasa.com/docs/rasa/custom-actions
 
+from typing import Text, List, Any, Dict
+
+from rasa_sdk import Tracker, FormValidationAction
+from rasa_sdk.executor import CollectingDispatcher
+from rasa_sdk.types import DomainDict
+from rasa_sdk.events import SlotSet
 
 # This is a simple example for a custom action which utters "Hello World!"
 
-from typing import Any, Text, Dict, List
+# from typing import Any, Text, Dict, List
+#
+from rasa_sdk import Action, Tracker
+# from rasa_sdk.executor import CollectingDispatcher
+#
+"""
+interpreter将输出包括实体，意图，以及对话的特征一起传给Tracker
+Tracker用来追踪记录对话状态的对象，Tracker的当前状态（特征，意图，实体）以及历史状态信息一并传给Policy。
+"""
 
-from rasa_sdk import Action, Tracker, FormValidationAction
-from rasa_sdk.executor import CollectingDispatcher
-from rasa_sdk.types import DomainDict
 
-
-class ActionHelloWorld(Action):
-
+class ValidateMedicinesForm(FormValidationAction):
     def name(self) -> Text:
-        return "action_hello_world"
+        return "validate_medicines_form"
 
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        dispatcher.utter_message(text="Hello World!")
-
-        return []
-
-
-class ActionInternalMedicine(Action):
-    def name(self) -> Text:
-        return "action_internal_medicine"
-
-    def run(self, dispatcher: CollectingDispatcher,
-            tracker: Tracker,
-            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
-
-        """
-        1: 连接用户的数据（输入的文本）
-        2: 连接es
-        3: 分本分词
-        4: 处理后的文本放到es进行查询
-        5: 通过es进行问题的匹配，进行初步的粗召回
-        6: 将粗召回的结果和用户的问题输入到Bert或者其它的相似度匹配算法中，例如TF-IDF
-        7: 通过上一步的算法，得到相似度匹配的结果
-        8: 将相似度匹配的结果按照相似度进行倒序排序
-        9: 将倒序排序的内容进行返回，取TopN返回：
-        9.1: 如果大于95%，直接返回最大的结果
-        9.2: 如果大于50%，小于95%，返回top10
-        9.3: 如果小于50%，提示用户，输入的问题无法找到相应的答案，建议换一种问法。
-        """
-
-        return []
-
-class ValidateMedicineForm(FormValidationAction):
-    def name(self) -> Text:
-        return "validate_medicine_form"
+    def validate_medicine(
+        self,
+        slot_value: Any,
+        dispatcher: CollectingDispatcher,
+        tracker: Tracker,
+        domain: DomainDict,
+    ) -> Dict[Text, Any]:
+        if slot_value:
+            return {"medicine": slot_value}
 
     @staticmethod
     def ask_about_db() -> List[Text]:
-        """Database of supported cuisines"""
 
         return ["efficacy", "origin", "composition"]
 
@@ -79,3 +59,103 @@ class ValidateMedicineForm(FormValidationAction):
             # validation failed, set this slot to None so that the
             # user will be asked for the slot again
             return {"ask_about": None}
+
+
+class ActionInternalMedicine(Action):
+
+    def name(self) -> Text:
+        return "action_internal_medicine"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is internalmedicine")
+
+        return []
+
+
+class ActionObstetricsGynecology(Action):
+
+    def name(self) -> Text:
+        return "action_obstetrics_gynecology"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is obstetrics gynecology")
+
+        return []
+
+
+class ActionPediatric(Action):
+
+    def name(self) -> Text:
+        return "action_pediatric"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is pediatric")
+
+        return []
+
+
+class ActionOncology(Action):
+
+    def name(self) -> Text:
+        return "action_oncology"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is oncology")
+
+        return []
+
+
+class ActionAndriatria(Action):
+
+    def name(self) -> Text:
+        return "action_andriatria"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is andriatria")
+
+        return []
+
+
+class ActionSurgical(Action):
+
+    def name(self) -> Text:
+        return "action_surgical"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is surgical")
+
+        return []
+
+
+class ActionMedicines(Action):
+
+    def name(self) -> Text:
+        return "action_medicines"
+
+    def run(self, dispatcher: CollectingDispatcher,
+            tracker: Tracker,
+            domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+
+        dispatcher.utter_message(text="this is medicines")
+        slots = []
+        for key in ('medicine', 'ask_about'):
+            slots.append(SlotSet(key=key, value=None))
+        return slots

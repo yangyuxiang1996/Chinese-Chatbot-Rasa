@@ -3069,6 +3069,7 @@ nlu:
     - 我猜你是女生
     - 你是女生吧
     - 你是女生啊
+
 - intent: faq/ask_habby
   examples: |
     - 你喜欢做什么
@@ -64283,6 +64284,7 @@ nlu:
     - 得了肝癌这种病后怎么治疗
     - 心肌梗塞是指心肌的缺血性坏死，为在冠状动
     - 面瘫怎么能治好
+
 - intent: medicines
   examples: |
     - 请问[鸡鸣散](medicine)[来自](ask_about)于哪里
@@ -67987,7 +67989,6 @@ nlu:
     - 请问[追风活血膏](medicine)中有哪些[成分](ask_about)
     - 请问[石斛明目丸](medicine)中有哪些[成分](ask_about)
     - 请问[囟会](medicine)的[产地](ask_about)是哪里
-
 
 - synonym: efficacy
   examples: |
