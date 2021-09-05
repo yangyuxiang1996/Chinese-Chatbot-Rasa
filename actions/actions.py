@@ -18,10 +18,19 @@ from rasa_sdk.events import SlotSet
 from rasa_sdk import Action, Tracker
 # from rasa_sdk.executor import CollectingDispatcher
 #
-"""
-interpreter将输出包括实体，意图，以及对话的特征一起传给Tracker
-Tracker用来追踪记录对话状态的对象，Tracker的当前状态（特征，意图，实体）以及历史状态信息一并传给Policy。
-"""
+#
+# class ActionHelloWorld(Action):
+#
+#     def name(self) -> Text:
+#         return "action_hello_world"
+#
+#     def run(self, dispatcher: CollectingDispatcher,
+#             tracker: Tracker,
+#             domain: Dict[Text, Any]) -> List[Dict[Text, Any]]:
+#
+#         dispatcher.utter_message(text="Hello World!")
+#
+#         return []
 
 
 class ValidateMedicinesForm(FormValidationAction):
