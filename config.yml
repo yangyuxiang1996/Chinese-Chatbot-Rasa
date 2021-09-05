@@ -33,7 +33,6 @@ pipeline:
     # This can be a name or a function.
     "scoring_function": "f1_weighted"
   - name: CRFEntityExtractor
-    epochs: 5
   - name: EntitySynonymMapper
   - name: ResponseSelector
     epochs: 100

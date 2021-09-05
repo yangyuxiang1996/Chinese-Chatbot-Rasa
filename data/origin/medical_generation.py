@@ -4,7 +4,7 @@
 Author: Yuxiang Yang
 Date: 2021-08-02 16:06:08
 LastEditors: Yuxiang Yang
-LastEditTime: 2021-08-20 10:07:26
+LastEditTime: 2021-09-05 10:54:49
 FilePath: /rasa-chat/data/origin/medical_generation.py
 Description:
 '''
@@ -24,7 +24,8 @@ QUESTIONS = [
     "[@](medicine)[治](ask_about)什么",
     "[@](medicine)的[产地](ask_about)是哪里",
     "[@](medicine)[产自于](ask_about)哪里",
-    "[@](medicine)由什么[成分](ask_about)组成"
+    "[@](medicine)由什么[成分](ask_about)组成",
+    "请问[@](medicine)是什么"
     
 ]
 
