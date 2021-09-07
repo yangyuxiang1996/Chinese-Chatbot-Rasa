@@ -4,19 +4,18 @@ pipeline:
 # # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
 # # If you'd like to customize it, uncomment and adjust the pipeline.
 # # See https://rasa.com/docs/rasa/tuning-your-model for more information.
-  - name: JiebaTokenizer
-  - name: RegexFeaturizer
-  - name: LexicalSyntacticFeaturizer
+  - name: compoments.nlu.tokenizers.bert_tokenizer.CustomBertTokenizer
+    model_weights: pretrained_model/bert-base-chinese
   - name: LanguageModelFeaturizer
     model_name: "bert"
     model_weights: "pretrained_model/bert-base-chinese"
   - name: DIETClassifier
-    epochs: 5
+    epochs: 10
   - name: ResponseSelector
-    epochs: 50
-#   - name: FallbackClassifier
-#     threshold: 0.3
-#     ambiguity_threshold: 0.1
+    epochs: 100
+  - name: FallbackClassifier
+    threshold: 0.3
+    ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
