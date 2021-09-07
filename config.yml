@@ -1,31 +1,42 @@
-# Configuration for Rasa NLU.
-# https://rasa.com/docs/rasa/nlu/components/
 language: zh
 
 pipeline:
-  - name: SpacyNLP
-    model: "zh_core_web_md"
-  - name: SpacyTokenizer
-  - name: SpacyFeaturizer
+# # No configuration for the NLU pipeline was provided. The following default pipeline was used to train your model.
+# # If you'd like to customize it, uncomment and adjust the pipeline.
+# # See https://rasa.com/docs/rasa/tuning-your-model for more information.
+  - name: JiebaTokenizer
   - name: RegexFeaturizer
   - name: LexicalSyntacticFeaturizer
-  - name: CountVectorsFeaturizer
-  - name: CountVectorsFeaturizer
-    analyzer: "char_wb"
-    min_ngram: 1
-    max_ngram: 4
+  - name: LanguageModelFeaturizer
+    model_name: "bert"
+    model_weights: "pretrained_model/bert-base-chinese"
   - name: DIETClassifier
     epochs: 5
-  - name: EntitySynonymMapper
   - name: ResponseSelector
-    epochs: 100
+    epochs: 50
+#   - name: FallbackClassifier
+#     threshold: 0.3
+#     ambiguity_threshold: 0.1
 
 # Configuration for Rasa Core.
 # https://rasa.com/docs/rasa/core/policies/
 policies:
   - name: MemoizationPolicy
-    max_history: 2
+    max_history: 1
   - name: TEDPolicy
-    max_history: 5
+    max_history: 1
     epochs: 100
-  - name: RulePolicy
+  - name: "FallbackPolicy"
+    nlu_threshold: 0.7
+    core_threshold: 0.7
+    fallback_action_name: "utter_default"
+  - name: MappingPolicy
+
+# # No configuration for policies was provided. The following default policies were used to train your model.
+# # If you'd like to customize them, uncomment and adjust the policies.
+# # See https://rasa.com/docs/rasa/policies for more information.
+#   - name: MemoizationPolicy
+#   - name: TEDPolicy
+#     max_history: 5
+#     epochs: 100
+#   - name: RulePolicy
